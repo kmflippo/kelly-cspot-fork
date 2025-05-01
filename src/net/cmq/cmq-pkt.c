@@ -824,7 +824,7 @@ int main(int argc, char **argv)
 				exit(1);
 		}
 	}
-		
+	
 	server_sd = cmq_pkt_listen(host_port);
 	if(server_sd < 0) {
 		fprintf(stderr,"ERROR: failed to create server_sd\n");
@@ -832,7 +832,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	for (int j = 0; j < 2; j++) {
+	for (int loop = 0; loop < 5; loop++) {
 	endpoint = cmq_pkt_accept(server_sd, 0); // zero timeout implies wait forever
 	if(endpoint < 0) {
 		fprintf(stderr,"ERROR: failed to accept endpoint\n");
@@ -936,9 +936,9 @@ int main(int argc, char **argv)
 
 	cmq_frame_list_destroy(fl);
 	printf("server sent zero frame echo\n");
-	}
-
+	
 	close(endpoint);
+	}
 	return(0);
 }
 
