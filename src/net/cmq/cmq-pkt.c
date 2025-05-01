@@ -832,7 +832,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-	for (int loop = 0; loop < 5; loop++) {
+	for (int loop = 0; loop < 2; loop++) {
 	endpoint = cmq_pkt_accept(server_sd, 0); // zero timeout implies wait forever
 	if(endpoint < 0) {
 		fprintf(stderr,"ERROR: failed to accept endpoint\n");
@@ -873,7 +873,10 @@ int main(int argc, char **argv)
 
 	// send frame list to server
 	printf("sending frame list to client\n");
-	err = cmq_pkt_send_msg(endpoint,fl);
+	/* 	with two different machines, the server is failing to send 
+		the message back to the client (the second time around)
+	*/
+	err = cmq_pkt_send_msg(endpoint,fl); 
 	if(err < 0) {
 		fprintf(stderr,"ERROR: failed to send msg\n");
 		exit(1);
